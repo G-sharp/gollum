@@ -2,6 +2,7 @@ require 'rubygems'
 require 'rake'
 require 'date'
 require 'tempfile'
+require 'fileutils'
 
 NODE_MODULES = File.join(File.dirname(__FILE__), 'node_modules')
 
@@ -162,9 +163,9 @@ task :publish => :release
 
 desc 'Build gem'
 task :build => :gemspec do
-  sh "mkdir -p pkg"
+  FileUtils.mkdir_p('pkg')
   sh "gem build #{gemspec_file}"
-  sh "mv #{gem_file} pkg"
+  FileUtils.mv(gem_file, 'pkg')
 end
 
 desc "Build and install"
@@ -176,7 +177,7 @@ desc 'Update gemspec'
 task :gemspec => :validate do
   # read spec file and split out manifest section
   spec = File.read(gemspec_file)
-  head, manifest, tail = spec.split("  # = MANIFEST =\n")
+  head, manifest, tail = spec.split(/^  # = MANIFEST =\r?\n/)
 
   # replace name and version
   replace_header(head, :name)
