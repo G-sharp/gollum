@@ -15,26 +15,21 @@ context 'Localized frontend' do
 
   test 'can visit search results page' do
     visit '/gollum/search'
-
-    fill_in('Search', with: 'something-to-return-no-results')
-      .native
-      .send_keys(:return)
-
-    assert_includes page.text,
-      'Search results for something-to-return-no-results'
-    assert_includes page.text,
-      'There are no results for your search.'
-
+    (find_field 'Search').fill_in with: "something-to-return-no-results"
+    send_keys :return
+    
+    find 'h1', text: 'Search results for something-to-return-no-results'
+    find 'p', text: 'There are no results for your search.'
     click_on 'Back to Top'
 
     visit '/gollum/search'
 
-    fill_in('Search', with: 'Bilbo').native.send_keys(:return)
+    (find_field 'Search site').fill_in with: "Bilbo"
+    send_keys :return
 
-    assert_includes page.text, 'Search results for Bilbo'
-
+    find 'h1', text: 'Search results for Bilbo'
     click_on 'Show all hits on this page'
-    click_on 'Bilbo-Baggins.md'
+    (find_link 'Bilbo-Baggins.md').click()
 
     assert page.current_path, '/Bilbo-Baggins.md'
   end
