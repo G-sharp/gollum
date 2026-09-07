@@ -47,7 +47,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'terser', '~> 1.1'
 
   # = MANIFEST =
-  s.files = Dir.glob('lib/gollum/public/assets/**/*', File::FNM_DOTMATCH).select { |path| File.file?(path) } + %w[
+  s.files = Dir['lib/gollum/public/assets/**/*'] + %w[
     CONTRIBUTING.md
     Dockerfile
     Gemfile
