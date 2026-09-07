@@ -26,6 +26,9 @@ group :development do
   gem 'sassc-embedded', '~> 1.80'
 end
 
+# Use the sibling checkout while developing gollum and gollum-lib together.
+gem 'gollum-lib', path: '../gollum-lib'
+
 gemspec
 
 gem 'rake', '~> 13.0'
